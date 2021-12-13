@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/pollingSystem_development');
+var url = process.env.DATABASEURL || "mongodb://localhost:27017/pollingSystem_development";
+
+mongoose.connect(url, {useNewUrlParser: true});
 
 const db = mongoose.connection;
 

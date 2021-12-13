@@ -1,4 +1,4 @@
-
+require('dotenv').config();
 const express = require('express');
 const db = require('./config/mongoose');
 const PORT = process.env.PORT || 8000;
@@ -16,7 +16,7 @@ app.set('views', './views');
 
 app.use(express.static('./assets'));
 
-
+console.log(process.env.DATABASEURL);
 
 app.use('/', require('./routes'));
 
