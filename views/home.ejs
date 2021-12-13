@@ -50,8 +50,8 @@
                                         <span class="badge badge-primary badge-pill"><%= option.vote %></span>
                                     </li>
                                     <div class="d-inline p-2 bg-primary text-white" id="vote-ctrl">
-                                        <a class="btn btn-primary" href="/options/<%= option.id %>/add_vote" role="button">Add Vote</a>
-                                        <a class="btn btn-primary" href="/options/<%= option.id %>/delete" role="button">❌</a>
+                                        <a class="btn btn-primary" title="Add Vote" href="/options/<%= option.id %>/add_vote" role="button">Add Vote</a>
+                                        <a class="btn btn-primary" title="Delete the Option" href="/options/<%= option.id %>/delete" role="button">❌</a>
                                     </div>
                                 <% } %>
                             <% } %>

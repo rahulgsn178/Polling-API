@@ -16,6 +16,7 @@ div {
 }
 
 #vote-ctrl {
+    margin: 0px;
     display: inline-block; 
 }
 .options li {
@@ -25,8 +26,8 @@ div {
 
 #create-option {
     display: flex;
-    height: 4rem;
-    width: 99rem;
+    width: 87%;
+    flex-wrap: wrap;
     justify-content: space-between;
 }
 
