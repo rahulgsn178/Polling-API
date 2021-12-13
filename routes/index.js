@@ -23,20 +23,18 @@ router.post('/questions/create', async (req, res) => {
     let question = await Question.create({
         content: req.body.content
     });
+    return res.redirect('/');
     // return res.json({
     //     question: question,
     //     message: "question created"
     // }); 
-    return res.redirect('/');
 
 });
 
 
 // to create options to a specific question
 router.post('/questions/:id/options/create', async (req, res) => {
-    let question = await Question.findById(req.params.id).populate({
-        path: 'options'
-    });
+    let question = await Question.findById(req.params.id);
     console.log(req.params.id);
     if (question) {
         let option = await Option.create({
@@ -48,27 +46,23 @@ router.post('/questions/:id/options/create', async (req, res) => {
         question.save();
 
         console.log(question);
+        res.redirect('/');
         // return res.json({
-        //     option: option,
+        //     question: question,
         //     message: "option created"
         // }); 
-        res.redirect('/');
 
     } else {
         return res.json({
             message: "Please put valid Id of the question"
         })
     }
-
-
 });
 
 
 // to increase the vote of a given option 
 router.get('/options/:id/add_vote', async (req, res) => {
-
-
-    let option = await Option.findById(req.params.id).populate('question');
+    let option = await Option.findById(req.params.id);
     option.vote = option.vote+1;
     console.log(option);
     option.save();
@@ -82,7 +76,10 @@ router.get('/options/:id/add_vote', async (req, res) => {
 
 // to delete the option 
 router.get('/options/:id/delete', async (req, res) => {
-    let option = await Option.findByIdAndDelete(req.params.id);
+    let option = await Option.findById(req.params.id);
+    let question_id = option.question;
+    option.remove();
+    await Question.findByIdAndUpdate(question_id, {$pull: {options: req.params.id}});
     return res.redirect('/');
     // return res.json({
     //     message: "option deleted"
@@ -93,7 +90,6 @@ router.get('/options/:id/delete', async (req, res) => {
 
 // to view question with specific id
 router.get('/questions/:id', async (req, res) => {
-
     let question = await Question.findById(req.params.id).populate('options');
     return res.json({
         question: question,
@@ -108,14 +104,12 @@ router.get('/questions/:id', async (req, res) => {
 
 // to delete question
 router.get('/questions/:id/delete', async (req, res) => {
-    console.log(req.params);
-    let question = await Question.findByIdAndDelete(req.params.id);
+    await Question.findByIdAndDelete(req.params.id);
+    await Option.deleteMany({question: req.params.id});
     // return res.json({
     //     message: "question with given id is deleted"
-    // })    
-
+    // });    
     return res.redirect('/');
-
 });
 
 
