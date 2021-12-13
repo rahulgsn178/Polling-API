@@ -11,7 +11,7 @@ const router = express.Router();
 router.get('/', async (req, res) => {
     let questions = await Question.find({}).populate({ path: 'options' });
     res.render('home', {
-        title: 'HOME',
+        title: 'Polling System API',
         questions: questions
     });
 });
